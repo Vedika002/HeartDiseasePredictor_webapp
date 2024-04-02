@@ -18,6 +18,13 @@ This project utilizes machine learning techniques to predict the likelihood of a
 - HTML/CSS
 - JavaScript
 - Machine learning (scikit-learn, etc.)
+  
+#Application consists of :
+-static: consist of animated videos of heart to improve the user's experience
+-templates: it consists of html templates for the provision of web service
+-app.py: flask application to run the whole project
+-model.pkl: stores the pickled file of the heart disease prediction model
+-requirement.txt: this file enlabels the required libraries to be installed for the project
 
 ## Usage
 
