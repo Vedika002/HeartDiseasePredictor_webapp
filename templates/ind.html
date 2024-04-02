@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <title>Heart Disease Predictor</title>
+    <style>
+        body {
+            font-family: "Poppins", sans-serif;
+            background-color: #f5f5f5;
+            color: white
+        }
+        header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center; 
+            margin-right: 15%;
+            font-weight: 1;
+            font-size: 2.5em;
+            padding: 10px 0px 10px 0px;
+        }
+        .logo {
+            margin:5% 0% 3% 0%;
+            border-radius: 10%;
+            opacity: 80%;
+        }
+        .login {
+            background-color: #EF4444;
+            margin-left:25%;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding-left: 7%;
+            width: 43.5%;
+            padding-bottom: 3%;
+            border-radius: 10px;
+            /* color: white */
+        }
+        .login h1 {
+            /* Changed color to red */
+            margin-bottom: 20px;
+        }
+        .input-field {
+            width: 80%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            outline: none;
+        }
+        /* input.input-field:focus{
+            outline-width: 0;
+        } */
+        .label-for-dropdown {
+            border: 1px solid #ccc; 
+            padding: 1% 55% 1% 5%
+        }
+        .drop-down {
+            margin-top:-5px;
+            margin-bottom: 20px;
+            padding: 10px;
+            width: 84.5%;
+            color: #3D3B40; 
+            border: 1px solid #ccc; 
+            border-radius: 5px;
+            outline: none;
+        }
+    
+        .genric-label-for-optional-input{
+           margin-right:68%; 
+           width: 50%;
+           color: #31363F;
+        }
+        .radio-input {
+            margin-left: 5%;
+            margin-bottom: 2%;
+        }
+        .radio-label {
+            margin-left: 2%;     
+        }
+        .result {
+            margin-top: 20px;
+        }
+        .result h2 {
+            margin: 10px 0;
+            font-size: 20px;
+            color: green;
+        }
+        .result h2.success {
+            color: green;
+        }
+        .result h4 {
+            color: green;
+            margin-top: 5px;
+        }
+
+        .logo {
+            max-width: 100px;
+            margin-bottom: 2px; /* Adjust the margin as needed */
+        }
+        .btn {
+            margin-top: 30px;
+            background-color: white;
+            color: #EF4444;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            width: 20%;
+            cursor: pointer;
+            margin-left: 64%;
+            height: 3em
+        }
+        .btn:hover {
+            background-color: #18181B;
+            color: white
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="login">
+        <header>
+            <img class ="logo" alt="Logo" src="https://media.istockphoto.com/id/1139549801/vector/stethoscope-heart-icon.jpg?s=612x612&w=0&k=20&c=qEJ7fFxWkok8j7FYYj4NwAlHSgqsw-azZz7c3IQJ4KI=" >
+            <div>Heart Disease Predictor</div>
+        </header>
+        
+        <form action="{{url_for('predict')}}" method="post">
+            <!--Input fields-->
+            <!--age-->
+            <p>Age:</p>
+            <input type="text" name="dob" class="input-field" id="dob" placeholder="Patient's DOB" onfocus="(this.type='date')" onfocusout="this.type='text'; this.value = isNaN(dob_to_age())? '': dob_to_age();" required><br />
+            <!-- sex -->
+            <p class="generic-label-for-optional-input">Patient's sex</p>
+            <input type="radio" class="radio-input" name="sex" value=0>
+            <label for="Male" class="radio-label">Male</label><br>
+            <input type="radio" class="radio-input" name="sex" value=1>
+            <label for="Female" class="radio-label">Female</label><br>
+            <input type="radio" class="radio-input" name="sex" value=1>
+            <label for="Other" class="radio-label" style="margin-bottom:3%">Other</label><br>
+            <br />
+            <!-- cp -->
+            <p class="generic-label-for-optional-input">Chest pain type</p>
+            <select name="cp" class="drop-down">
+                <option value="" disabled selected hidden>--Select--</option>
+                <option value="0">Typical Angina</option>
+                <option value="1">Atypical Angina</option>
+                <option value="2">Non Anginal pain</option>
+                <option value="3">Asymptomatic</option>
+            </select>
+            <p class="generic-label-for-optional-input">Resting blood pressure</p>
+            <input type="text" name="trestbps" class="input-field" placeholder="Resting blood pressure [90–120: normal 120–140: unusual 140–160: high > 160: very high]" required><br>
+            <p class="generic-label-for-optional-input">Serum cholestrol</p>
+            <input type="text" name="chol" class="input-field" placeholder="Serum cholestoral" required><br>
+
+             <!-- fbs -->
+             <p class="generic-label-for-optional-input">Fasting blood sugar</p>
+             <input type="radio" class="radio-input" name="fbs" value=1>
+             <label for="True" class="radio-label">True</label><br>
+             <input type="radio" class="radio-input" name="fbs" value=0>
+             <label for="False" class="radio-label">False</label><br>
+
+             <!-- restecg -->
+             <p class="generic-label-for-optional-input">Resting electrocardiographic results</p>
+             <input type="radio" class="radio-input" name="restecg" value=0>
+             <label for="Normal" class="radio-label">Normal</label><br>
+             <input type="radio" class="radio-input" name="restecg" value=1>
+             <label for="Abnormal" class="radio-label">Abnormal</label><br>
+              <br />
+    
+            <!-- thalach -->
+            <input type="text" name="thalach" class="input-field" placeholder="Maximum heart rate achieved" required><br>
+            
+            <!-- exang -->
+            <p class="generic-label-for-optional-input">Exercise induced angina</p>
+            <input type="radio" class="radio-input" name="exang" value=1>
+            <label for="Yes" class="radio-label">Yes</label><br>
+            <input type="radio" class="radio-input" name="exang" value=0>
+            <label for="No" class="radio-label">No</label><br>
+            <br />
+            
+            <!-- oldpeak -->
+            <input type="text" name="oldpeak" class="input-field" placeholder="ST depression induced by exercise relative to rest" required><br>
+            
+            <!-- slope" -->
+            <p class="generic-label-for-optional-input">The slope of the peak exercise ST segment</p>
+            <select name="slope" class="drop-down" required>
+                <option value="" disabled selected hidden>--Select--</option>
+                <option value="0">Upsloping</option>
+                <option value="1">Flat</option>
+                <option value="2">Downsloping</option>
+            </select><br>
+            <!-- ca -->
+        
+            <p class="generic-label-for-optional-input">Number of major vessels colored by fluoroscopy</p>
+            <input type="number" name="ca" class="input-field" placeholder="0 to 4" min="0" max="4" required><br>
+
+            <!-- thal -->
+            <p class="generic-label-for-optional-input">Thalassemia</p>
+            <select name="thal" class="drop-down" required>
+                <option value="" disabled selected hidden>--Select--</option>
+                <option value="0">Normal</option>
+                <option value="1">Fixed Defect</option>
+                <option value="2">Reversible Defect</option>
+                <option value="3">Label</option>
+            </select><br>
+            
+            <button type="submit" class="btn">Predict the risk</button>
+        </form>
+    
+    </div>
+</body>
+
+<script>
+
+        const dob_to_age = () =>{
+            let dob = new Date(document.getElementById("dob").value)
+            console.log(dob)
+            const now = new Date();
+
+            let age = now.getFullYear() - dob.getFullYear();
+            const monthDiff = now.getMonth() - dob.getMonth();
+            
+            if (monthDiff < 0 || (monthDiff === 0 && now.getDate() < dob.getDate())) {
+                age--;
+            }
+            // console.log(document.getElementById("dob").value)
+            // alert("Age: "+age)
+            return age
+            
+    }
+
+</script>
+</html>
